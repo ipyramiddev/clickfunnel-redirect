@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Page Title1</title>
+	</head>
+	<body>
+
+		<h1>This is a page1</h1>
+		<p>This is a page1.</p>
+		<button id="next-btn" type="button" onclick="redirectPage()">redirect</button>
+
+	</body>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script type="text/javascript">
+		function setCookie(cname, cvalue, exdays) {
+			// const d = new Date();
+			// d.setTime(d.getTime() + (exdays*24*60*60*1000));
+			// d.setTime(d.getTime() + (exdays*1000));
+			// let expires = "expires="+ d.toUTCString();
+			let expires = "expires=" + exdays.toUTCString();
+			alert(Date.parse(exdays.toUTCString()));
+			document.cookie = cname + "=" + cvalue + ";" + expires;
+		}
+
+		function getCookie(cname) {
+			let name = cname + "=";
+			let ca = document.cookie.split(';');
+			for(let i = 0; i < ca.length; i++) {
+			    let c = ca[i];
+			    while (c.charAt(0) == ' ') {
+			    	c = c.substring(1);
+			    }
+			    if (c.indexOf(name) == 0) {
+			    	return c.substring(name.length, c.length);
+			    }
+		  	}
+			return "";
+		}
+
+		$( document ).ready(function() {
+			let firstpoint = new Date();
+			let secondpoint = new Date();
+			let today = new Date();
+			let today_weekday = today.getDay();
+			let isFirstPoint;
+			let isSecondPoint;
+
+			firstpoint.setDate(firstpoint.getDate() + (7 - today_weekday));
+			firstpoint.setHours(23);
+			firstpoint.setMinutes(59);
+			firstpoint.setSeconds(59);
+			
+			// alert(firstpoint);
+			// setCookie("firstpoint", firstpoint, firstpoint);
+
+			secondpoint.setDate(firstpoint.getDate() + 14);
+			secondpoint.setHours(23);
+			secondpoint.setMinutes(59);
+			secondpoint.setSeconds(59);
+			
+			// alert(secondpoint);
+			// setCookie("secondpoint", secondpoint, secondpoint);
+
+			isFirstPoint = getCookie("firstpoint");
+			isSecondPoint = getCookie("secondpoint");
+
+			if (isSecondPoint == "") {
+				if (isFirstPoint == "") {
+					firstpoint.setTime(today.getTime() + 4*1000);
+					secondpoint.setTime(today.getTime() + 8*1000);
+					setCookie("firstpoint", firstpoint, firstpoint)
+					setCookie("secondpoint", secondpoint, secondpoint);
+					window.location = "2.html"		
+				} else {
+					window.location = "2.html"		
+				}
+			} else {
+				if (isFirstPoint == "") {
+
+				} else {
+					if (Date.parse(isFirstPoint) > Date.parse(today.toUTCString())) {
+						window.location = "2.html"
+					}
+				}
+			}
+		});
+
+		function redirectPage() {
+			let today = new Date();
+			let exdays = new Date();
+			exdays.setTime(today.getTime() + 4*1000);
+			setCookie("test", today,exdays)
+		}
+	</script>
+
+</html>
+
+
