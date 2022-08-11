@@ -19,7 +19,6 @@
 			// d.setTime(d.getTime() + (exdays*1000));
 			// let expires = "expires="+ d.toUTCString();
 			let expires = "expires=" + exdays.toUTCString();
-			alert(Date.parse(exdays.toUTCString()));
 			document.cookie = cname + "=" + cvalue + ";" + expires;
 		}
 
@@ -46,18 +45,29 @@
 			let isFirstPoint;
 			let isSecondPoint;
 
-			firstpoint.setDate(firstpoint.getDate() + (7 - today_weekday));
+			let currentTimeAsMs = Date.now();
+			let leftDaysToFirstSunday = 7 - today_weekday;
+			let firstpointAsMs = currentTimeAsMs + (1000 * 60 * 60 * 24 * leftDaysToFirstSunday);
+			firstpoint = new Date(firstpointAsMs);
+
+			// firstpoint.setDate(firstpoint.getDate() + (7 - today_weekday));
 			firstpoint.setHours(23);
 			firstpoint.setMinutes(59);
 			firstpoint.setSeconds(59);
+			console.log(firstpoint);
+			// console.log(secondpoint);
 			
 			// alert(firstpoint);
 			// setCookie("firstpoint", firstpoint, firstpoint);
 
-			secondpoint.setDate(firstpoint.getDate() + 14);
+			secondpointAsMs = firstpointAsMs + (1000 * 60 * 60 * 24 * 14);
+			secondpoint = new Date(secondpointAsMs);
+			// secondpoint.setDate(firstpoint.getDate() + 14);
 			secondpoint.setHours(23);
 			secondpoint.setMinutes(59);
 			secondpoint.setSeconds(59);
+			console.log(secondpoint);
+
 			
 			// alert(secondpoint);
 			// setCookie("secondpoint", secondpoint, secondpoint);
@@ -67,21 +77,23 @@
 
 			if (isSecondPoint == "") {
 				if (isFirstPoint == "") {
-					firstpoint.setTime(today.getTime() + 4*1000);
-					secondpoint.setTime(today.getTime() + 8*1000);
+					// firstpoint.setTime(today.getTime() + 8*1000);
+					// secondpoint.setTime(today.getTime() + 20*1000);
 					setCookie("firstpoint", firstpoint, firstpoint)
+					console.log(firstpoint);
+					console.log(secondpoint);
 					setCookie("secondpoint", secondpoint, secondpoint);
-					window.location = "2.html"		
+					// window.location = "2.html"		
 				} else {
-					window.location = "2.html"		
+					// window.location = "2.html"		
 				}
 			} else {
 				if (isFirstPoint == "") {
-
+					window.location = "2.html"
 				} else {
-					if (Date.parse(isFirstPoint) > Date.parse(today.toUTCString())) {
-						window.location = "2.html"
-					}
+					// if (Date.parse(isFirstPoint) > Date.parse(today.toUTCString())) {
+					// 	window.location = "2.html"
+					// }
 				}
 			}
 		});
